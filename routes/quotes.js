@@ -3,8 +3,8 @@ const router = express.Router();
 const Quote = require('../models/Quote');
 
 // @route   GET /api/quotes
-// @desc    Get all quotes
-// @access  Public
+// @desc    Obtener todas las cotizaciones
+// @access  Público
 router.get('/', async (req, res) => {
   try {
     const quotes = await Quote.find();
@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
 });
 
 // @route   POST /api/quotes
-// @desc    Add a new quote
-// @access  Public
+// @desc    Agregar una nueva cotización
+// @access  Público
 router.post('/', async (req, res) => {
   const newQuote = new Quote({
     customerName: req.body.customerName,

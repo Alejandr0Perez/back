@@ -3,8 +3,8 @@ const router = express.Router();
 const Inventory = require('../models/Inventory');
 
 // @route   GET /api/inventory
-// @desc    Get all inventory items
-// @access  Public
+// @desc    Obtener todos los ítems de inventario
+// @access  Público
 router.get('/', async (req, res) => {
   try {
     const inventory = await Inventory.find();
@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
 });
 
 // @route   POST /api/inventory
-// @desc    Add a new inventory item
-// @access  Public
+// @desc    Agregar un nuevo ítem de inventario
+// @access  Público
 router.post('/', async (req, res) => {
   const newItem = new Inventory({
     name: req.body.name,
@@ -33,12 +33,12 @@ router.post('/', async (req, res) => {
 });
 
 // @route   DELETE /api/inventory/:id
-// @desc    Delete an inventory item
-// @access  Public
+// @desc    Eliminar un ítem de inventario
+// @access  Público
 router.delete('/:id', async (req, res) => {
   try {
     await Inventory.findByIdAndRemove(req.params.id);
-    res.json({ message: 'Item deleted' });
+    res.json({ message: 'Ítem eliminado' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
