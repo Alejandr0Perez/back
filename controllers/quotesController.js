@@ -1,7 +1,8 @@
+const { validationResult } = require('express-validator');
 const Quote = require('../models/Quote');
 
 // Obtener todas las cotizaciones
-exports.getQuotes = async (req, res) => {
+const getQuotes = async (req, res) => {
   try {
     const quotes = await Quote.find();
     res.json(quotes);
@@ -11,7 +12,13 @@ exports.getQuotes = async (req, res) => {
 };
 
 // Agregar una nueva cotización
-exports.addQuote = async (req, res) => {
+const addQuote = async (req, res) => {
+  // Validación de datos de entrada
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { customerName, items, total } = req.body;
   const newQuote = new Quote({ customerName, items, total });
 
@@ -24,11 +31,17 @@ exports.addQuote = async (req, res) => {
 };
 
 // Eliminar una cotización
-exports.deleteQuote = async (req, res) => {
+const deleteQuote = async (req, res) => {
   try {
     await Quote.findByIdAndDelete(req.params.id);
     res.json({ message: 'Quote deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+module.exports = {
+  getQuotes,
+  addQuote,
+  deleteQuote
 };

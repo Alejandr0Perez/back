@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 const Inventory = require('../models/inventory');
 
 // Obtener todos los ítems de inventario
@@ -12,6 +13,12 @@ const getInventoryItems = async (req, res) => {
 
 // Agregar un nuevo ítem de inventario
 const addInventoryItem = async (req, res) => {
+  // Validación de datos de entrada
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const newItem = new Inventory({
     name: req.body.name,
     quantity: req.body.quantity,
