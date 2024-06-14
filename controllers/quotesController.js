@@ -19,12 +19,15 @@ const addQuote = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { customerName, items, total } = req.body;
-  const newQuote = new Quote({ customerName, items, total });
+  const newQuote = new Quote({
+    customerName: req.body.customerName,
+    project: req.body.project,
+    amount: req.body.amount,
+  });
 
   try {
-    const savedQuote = await newQuote.save();
-    res.status(201).json(savedQuote);
+    const quote = await newQuote.save();
+    res.status(201).json(quote);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -33,8 +36,8 @@ const addQuote = async (req, res) => {
 // Eliminar una cotización
 const deleteQuote = async (req, res) => {
   try {
-    await Quote.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Quote deleted' });
+    await Quote.findByIdAndRemove(req.params.id);
+    res.json({ message: 'Cotización eliminada' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

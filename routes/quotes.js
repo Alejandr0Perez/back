@@ -1,34 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const Quote = require('../models/Quote');
-const { addQuote } = require('../controllers/quotesController');
+const { getQuotes, addQuote, deleteQuote } = require('../controllers/quotesController');
 
-// Validación para la ruta de agregar una nueva cotización
+// Validación para la ruta de agregar cotización
 router.post('/', [
   body('customerName').notEmpty().withMessage('El nombre del cliente es requerido'),
-  body('items').isArray({ min: 1 }).withMessage('Debe incluir al menos un ítem en la cotización'),
-  body('total').isFloat({ min: 0.01 }).withMessage('El total debe ser un número mayor que cero'),
+  body('project').notEmpty().withMessage('El proyecto es requerido'),
+  body('amount').isFloat({ min: 0.01 }).withMessage('La cantidad debe ser un número mayor que cero'),
 ], addQuote);
 
 // Ruta para obtener todas las cotizaciones
-router.get('/', async (req, res) => {
-  try {
-    const quotes = await Quote.find();
-    res.json(quotes);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.get('/', getQuotes);
 
 // Ruta para eliminar una cotización por ID
-router.delete('/:id', async (req, res) => {
-  try {
-    const removedQuote = await Quote.findByIdAndDelete(req.params.id);
-    res.json(removedQuote);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+router.delete('/:id', deleteQuote);
 
 module.exports = router;

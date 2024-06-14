@@ -5,23 +5,11 @@ const quoteSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  items: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
-  total: {
+  project: {
+    type: String,
+    required: true,
+  },
+  amount: {
     type: Number,
     required: true,
   },
