@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // URL de conexión a MongoDB Atlas
-const mongoURI = 'mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/<database-name>?retryWrites=true&w=majority';
+const mongoURI = process.env.MONGO_URI;
 
 // Conectar a MongoDB Atlas
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })

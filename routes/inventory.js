@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Inventory = require('../models/Inventory');
+const Inventory = require('../models/inventory');
 
 // @route   GET /api/inventory
 // @desc    Obtener todos los ítems de inventario
